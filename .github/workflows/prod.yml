@@ -15,3 +15,36 @@ jobs:
 
       - name: check docker image
         run: docker images 
+
+      - name: Authenticate to aws 
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Tag and push docker image to ECR
+        run: |
+          aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 990597228500.dkr.ecr.ap-south-1.amazonaws.com
+          docker tag myntra-prod-b21:latest 990597228500.dkr.ecr.ap-south-1.amazonaws.com/myntra:latest
+          docker push 990597228500.dkr.ecr.ap-south-1.amazonaws.com/myntra:latest
+
+      - name: connect to EKS cluster
+        run: |
+          aws eks update-kubeconfig --region ap-south-1 --name b21
+
+      - name: deploy to EKS
+        run: |
+          kubectl apply -f k8s/app/
+          
+
+
+
+
+
+
+    
+
+    
+
+
