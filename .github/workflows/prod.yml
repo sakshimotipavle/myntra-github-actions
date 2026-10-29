@@ -7,10 +7,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clone the code on runner
-        run: git clone https://github.com/sakshimotipavle/myntra-github-actions.git
+      - name: Checkout code
+        uses: actions/checkout@v7
 
-      - name: verify the code
-        run : |
-          cd myntra-github-actions
-          ls -l
+      - name: docker Image build
+        run: docker build -t myntra-prod-b21 .
+
+      - name: check docker image
+        run: docker images 
