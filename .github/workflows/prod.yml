@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Clone the code on runner
-        uses: git clone https://github.com/sakshimotipavle/myntra-github-actions.git
+        run: git clone https://github.com/sakshimotipavle/myntra-github-actions.git
 
       - name: verify the code
         run : |
